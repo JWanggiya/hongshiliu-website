@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>西北大学经济管理学院红石榴协会</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8C1515', // 西北大学主色调
+            secondary: '#FFB81C', // 辅助金色
+            neutral: {
+              100: '#F5F7FA',
+              200: '#E4E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+            'card-hover': '0 10px 30px rgba(0, 0, 0, 0.12)',
+          }
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .card-transition {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .sidebar-item-active {
+        @apply bg-primary/10 text-primary border-l-4 border-primary;
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-700 min-h-screen flex flex-col">
+  <!-- 前台导航栏 -->
+  <header class="bg-white shadow-md sticky top-0 z-40 transition-all duration-300" id="navbar">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-book-open text-primary text-2xl"></i>
+        <h1 class="text-xl font-bold text-primary">西北大学经济管理学院红石榴协会</h1>
+      </div>
+      
+      <!-- 搜索框 -->
+      <div class="relative w-full max-w-md mx-4">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="输入关键词搜索..." 
+          class="w-full py-2 px-4 pr-10 rounded-full border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+        >
+        <button id="search-button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-primary transition-colors">
+          <i class="fa-solid fa-search"></i>
+        </button>
+      </div>
+      
+      <!-- 登录/后台按钮 -->
+      <div class="flex items-center space-x-4">
+        <button id="login-button" class="hidden md:flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
+          <i class="fa-solid fa-user-circle mr-2"></i><span id="login-text">登录</span>
+        </button>
+        
+        <!-- 移动端菜单按钮 -->
+        <button id="mobile-menu-button" class="md:hidden text-neutral-600 hover:text-primary transition-colors">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="md:hidden bg-white shadow-lg absolute w-full left-0 py-4 px-4 hidden">
+      <div class="flex flex-col space-y-3">
+        <a href="#" class="text-neutral-600 hover:text-primary py-2 px-4 rounded-md hover:bg-neutral-100 transition-colors">首页</a>
+        <a href="#" class="text-neutral-600 hover:text-primary py-2 px-4 rounded-md hover:bg-neutral-100 transition-colors">词条库</a>
+        <a href="#" class="text-neutral-600 hover:text-primary py-2 px-4 rounded-md hover:bg-neutral-100 transition-colors">社团动态</a>
+        <a href="#" class="text-neutral-600 hover:text-primary py-2 px-4 rounded-md hover:bg-neutral-100 transition-colors">关于我们</a>
+        <button id="mobile-login-button" class="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm w-full justify-center mt-2">
+          <i class="fa-solid fa-user-circle mr-2"></i><span id="mobile-login-text">登录</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 前台内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <!-- 轮播图 -->
+    <section class="mb-12">
+      <div class="relative rounded-2xl overflow-hidden shadow-lg h-[400px] md:h-[500px]">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/70 to-transparent z-10 flex items-center">
+          <div class="px-8 md:px-16 max-w-2xl">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-white mb-4 text-shadow">欢迎来到西北大学经济管理学院红石榴协会</h2>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-6">致力于多元文化交流与传承的学生组织</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="#entries" class="px-6 py-3 bg-white text-primary font-medium rounded-lg hover:bg-neutral-100 transition-colors shadow-sm">
+                浏览词条库
+              </a>
+              <a href="#news" class="px-6 py-3 bg-transparent border-2 border-white text-white font-medium rounded-lg hover:bg-white/10 transition-colors">
+                查看社团动态
+              </a>
+            </div>
+          </div>
+        </div>
+        <img src="https://picsum.photos/1600/900?random=10" alt="红石榴协会" class="w-full h-full object-cover">
+      </div>
+    </section>
+
+    <!-- 社团简介 -->
+    <section class="mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-3xl font-bold text-neutral-700 mb-6">关于我们</h2>
+          <p class="text-neutral-600 mb-4 leading-relaxed">
+            西北大学经济管理学院红石榴协会成立于2010年，是一个致力于促进多元文化交流与传承的学生组织。我们以"各美其美，美美与共"为宗旨，通过举办文化活动、学术讲座和社会实践等形式，增进同学们对不同文化的了解与尊重。
+          </p>
+          <p class="text-neutral-600 mb-6 leading-relaxed">
+            协会拥有丰富的文化资源库，涵盖了语言、艺术、历史、习俗等多个领域，旨在为同学们提供一个学习和交流多元文化的平台。
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+                <i class="fa-solid fa-users text-xl"></i>
+              </div>
+              <div>
+                <p class="text-neutral-500 text-sm">会员人数</p>
+                <p class="text-xl font-bold text-neutral-700">300+</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+                <i class="fa-solid fa-book text-xl"></i>
+              </div>
+              <div>
+                <p class="text-neutral-500 text-sm">词条数量</p>
+                <p class="text-xl font-bold text-neutral-700">1000+</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+                <i class="fa-solid fa-calendar-check text-xl"></i>
+              </div>
+              <div>
+                <p class="text-neutral-500 text-sm">年度活动</p>
+                <p class="text-xl font-bold text-neutral-700">20+</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-xl overflow-hidden shadow-md transform hover:-translate-y-1 transition-all">
+            <img src="https://picsum.photos/400/300?random=11" alt="社团活动" class="w-full h-full object-cover">
+          </div>
+          <div class="rounded-xl overflow-hidden shadow-md transform hover:-translate-y-1 transition-all mt-8">
+            <img src="https://picsum.photos/400/300?random=12" alt="社团活动" class="w-full h-full object-cover">
+          </div>
+          <div class="rounded-xl overflow-hidden shadow-md transform hover:-translate-y-1 transition-all">
+            <img src="https://picsum.photos/400/300?random=13" alt="社团活动" class="w-full h-full object-cover">
+          </div>
+          <div class="rounded-xl overflow-hidden shadow-md transform hover:-translate-y-1 transition-all mt-8">
+            <img src="https://picsum.photos/400/300?random=14" alt="社团活动" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 词条库部分 -->
+    <section id="entries" class="mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-neutral-700">词条库</h2>
+        <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+          查看全部 <i class="fa-solid fa-arrow-right ml-1"></i>
+        </a>
+      </div>
+      
+      <!-- 词条网格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 词条卡片将通过JavaScript动态生成 -->
+      </div>
+    </section>
+
+    <!-- 社团动态部分 -->
+    <section id="news" class="mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-neutral-700">社团动态</h2>
+        <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+          查看全部 <i class="fa-solid fa-arrow-right ml-1"></i>
+        </a>
+      </div>
+      
+      <!-- 动态列表 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 动态卡片将通过JavaScript动态生成 -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 前台页脚 -->
+  <footer class="bg-neutral-800 text-neutral-300 py-8 mt-10">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-white mb-4">西北大学经济管理学院红石榴协会</h3>
+          <p class="text-neutral-400">
+            本协会由西北大学经济管理学院支持成立，致力于收集、整理和传播多元文化相关的知识和信息，促进文化交流与理解。
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-white mb-4">快速链接</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">词条库</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">社团动态</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">关于我们</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-white mb-4">联系我们</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fa-solid fa-envelope text-neutral-400 mr-2"></i>
+              <a href="mailto:hongshiliu@nwu.edu.cn" class="text-neutral-400 hover:text-white transition-colors">hongshiliu@nwu.edu.cn</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fa-solid fa-phone text-neutral-400 mr-2"></i>
+              <span class="text-neutral-400">029-8830-2222</span>
+            </li>
+          </ul>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-weibo text-xl"></i>
+            </a>
+            <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-wechat text-xl"></i>
+            </a>
+            <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-twitter text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-700 mt-8 pt-6 text-center text-neutral-500">
+        <p>&copy; 2025 西北大学经济管理学院红石榴协会 版权所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 登录模态框 -->
+  <div id="login-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden fade-in">
+    <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6 border-b border-neutral-200 flex justify-between items-center">
+        <h3 class="text-2xl font-bold text-neutral-700">管理员登录</h3>
+        <button id="close-login-modal" class="text-neutral-400 hover:text-neutral-700 transition-colors">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="login-form">
+          <div class="mb-4">
+            <label for="login-email" class="block text-sm font-medium text-neutral-700 mb-1">邮箱</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              <input 
+                type="email" 
+                id="login-email" 
+                class="w-full py-2 pl-10 pr-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                placeholder="请输入邮箱"
+                required
+              >
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="login-code" class="block text-sm font-medium text-neutral-700 mb-1">验证码</label>
+            <div class="flex">
+              <div class="relative flex-1">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400">
+                  <i class="fa-solid fa-shield"></i>
+                </span>
+                <input 
+                  type="text" 
+                  id="login-code" 
+                  class="w-full py-2 pl-10 pr-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                  placeholder="请输入验证码"
+                  required
+                >
+              </div>
+              <button 
+                type="button" 
+                id="send-code-btn" 
+                class="ml-3 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm whitespace-nowrap"
+              >
+                获取验证码
+              </button>
+            </div>
+          </div>
+          
+          <div class="flex justify-end space-x-4 mt-6">
+            <button type="button" id="cancel-login-btn" class="px-6 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 transition-colors">
+              取消
+            </button>
+            <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
+              登录
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 后台管理系统 -->
+  <div id="admin-panel" class="fixed inset-0 bg-neutral-100 z-50 flex hidden">
+    <!-- 侧边栏 -->
+    <div class="w-64 bg-white shadow-lg h-full flex flex-col">
+      <div class="p-5 border-b border-neutral-200">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-crown text-primary text-2xl"></i>
+          <h2 class="text-xl font-bold text-primary">红石榴协会管理系统</h2>
+        </div>
+      </div>
+      
+      <div class="flex-grow overflow-y-auto">
+        <nav class="p-4">
+          <div class="mb-6">
+            <p class="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">主菜单</p>
+            <ul class="space-y-1">
+              <li>
+                <a href="#dashboard" class="flex items-center px-4 py-3 rounded-lg sidebar-item-active">
+                  <i class="fa-solid fa-tachometer-alt w-5 h-5 mr-3"></i>
+                  <span>仪表盘</span>
+                </a>
+              </li>
+              <li>
+                <a href="#entries-management" class="flex items-center px-4 py-3 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <i class="fa-solid fa-book w-5 h-5 mr-3"></i>
+                  <span>词条管理</span>
+                </a>
+              </li>
+              <li>
+                <a href="#news-management" class="flex items-center px-4 py-3 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <i class="fa-solid fa-newspaper w-5 h-5 mr-3"></i>
+                  <span>社团动态管理</span>
+                </a>
+              </li>
+              <li>
+                <a href="#users-management" class="flex items-center px-4 py-3 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <i class="fa-solid fa-users w-5 h-5 mr-3"></i>
+                  <span>用户管理</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="mb-6">
+            <p class="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">系统设置</p>
+            <ul class="space-y-1">
+              <li>
+                <a href="#email-management" class="flex items-center px-4 py-3 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <i class="fa-solid fa-envelope w-5 h-5 mr-3"></i>
+                  <span>邮箱管理</span>
+                </a>
+              </li>
+              <li>
+                <a href="#system-settings" class="flex items-center px-4 py-3 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <i class="fa-solid fa-cog w-5 h-5 mr-3"></i>
+                  <span>系统设置</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      
+      <div class="p-4 border-t border-neutral-200">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-neutral-700">管理员</p>
+            <p class="text-xs text-neutral-500">admin@nwu.edu.cn</p>
+          </div>
+          <button id="logout-button" class="ml-auto text-neutral-400 hover:text-neutral-700 transition-colors">
+            <i class="fa-solid fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <div class="flex-grow overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-neutral-700">仪表盘</h2>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <input 
+                type="text" 
+                placeholder="搜索..." 
+                class="py-2 pl-10 pr-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              >
+              <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400"></i>
+            </div>
+            <button class="text-neutral-500 hover:text-neutral-700 transition-colors">
+              <i class="fa-solid fa-bell"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover card-transition">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-neutral-500 font-medium">总词条数</h3>
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <i class="fa-solid fa-book"></i>
+              </div>
+            </div>
+            <p class="text-3xl font-bold text-neutral-700 mb-1">1,248</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fa-solid fa-arrow-up mr-1"></i> 12.5% <span class="text-neutral-400 ml-1">较上月</span>
+            </p>
+          </div>
+          
+          <div class="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover card-transition">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-neutral-500 font-medium">社团动态</h3>
+              <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                <i class="fa-solid fa-newspaper"></i>
+              </div>
+            </div>
+            <p class="text-3xl font-bold text-neutral-700 mb-1">86</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fa-solid fa-arrow-up mr-1"></i> 8.2% <span class="text-neutral-400 ml-1">较上月</span>
+            </p>
+          </div>
+          
+          <div class="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover card-transition">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-neutral-500 font-medium">访问量</h3>
+              <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+            </div>
+            <p class="text-3xl font-bold text-neutral-700 mb-1">25,684</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fa-solid fa-arrow-up mr-1"></i> 18.9% <span class="text-neutral-400 ml-1">较上月</span>
+            </p>
+          </div>
+          
+          <div class="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover card-transition">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-neutral-500 font-medium">活跃用户</h3>
+              <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500">
+                <i class="fa-solid fa-users"></i>
+              </div>
+            </div>
+            <p class="text-3xl font-bold text-neutral-700 mb-1">328</p>
+            <p class="text-sm text-red-500 flex items-center">
+              <i class="fa-solid fa-arrow-down mr-1"></i> 3.1% <span class="text-neutral-400 ml-1">较上月</span>
+            </p>
+          </div>
+        </div>
+        
+        <!-- 最近活动 -->
+        <div class="bg-white rounded-xl shadow-card mb-8">
+          <div class="p-6 border-b border-neutral-200 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-neutral-700">最近操作</h3>
+            <button class="text-primary hover:text-primary/80 text-sm font-medium">查看全部</button>
+          </div>
+          <div class="p-6">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-neutral-200">
+                <thead>
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">操作类型</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">内容</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">操作人</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">时间</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">状态</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-neutral-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="flex items-center">
+                        <i class="fa-solid fa-plus-circle text-green-500 mr-2"></i>
+                        <span>新增词条</span>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">丝绸之路</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">admin@nwu.edu.cn</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
+                      今天 10:23
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        成功
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="flex items-center">
+                        <i class="fa-solid fa-edit text-blue-500 mr-2"></i>
+                        <span>编辑动态</span>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">社团招新活动圆满结束</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">editor@nwu.edu.cn</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
+                      昨天 15:47
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        成功
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="flex items-center">
+                        <i class="fa-solid fa-trash text-red-500 mr-2"></i>
+                        <span>删除词条</span>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">测试词条</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-sm text-neutral-700">admin@nwu.edu.cn</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
+                      昨天 09:12
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                        待审核
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 快速操作 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl shadow-card">
+            <div class="p-6 border-b border-neutral-200">
+              <h3 class="text-lg font-semibold text-neutral-700">快速添加词条</h3>
+            </div>
+            <div class="p-6">
+              <form>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">词条标题</label>
+                    <input type="text" class="w-full py-2 px-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">拼音</label>
+                    <input type="text" class="w-full py-2 px-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+                  </div>
+                </div>
+                
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-neutral-700 mb-1">简短描述</label>
+                  <textarea class="w-full py-2 px-4 rounded-lg border border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" rows="3"></textarea>
+                </div>
+                
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-neutral-700 mb-1">详细内容</label>
+                  <div class="border border-neutral-200 rounded-lg overflow-hidden">
+                    <div class="p-2 bg-neutral-50 border-b border-neutral-200">
+                      <button class="p-2 hover:bg-neutral-200 rounded transition-colors">
+                        <i class="fa-solid fa-bold"></i>
+                      </button>
+                      <button class="p-2 hover:bg-neutral-200 rounded transition-colors">
+                        <i class="fa-solid fa-italic"></i>
+                      </button>
+                      <button class="p-2 hover:bg-neutral-200 rounded transition-colors">
+                        <i class="fa-solid fa-link"></i>
+                      </button>
+                      <button class="p-2 hover:bg-neutral-200 rounded transition-colors">
+                        <i class="fa-solid fa-list-ul"></i>
+                      </button>
+                      <button class="p-2 hover:bg-neutral-200 rounded transition-colors">
+                        <i class="fa-solid fa-list-ol"></i>
+                      </button>
+                    </div>
+                    <textarea class="w-full py-2 px-4 outline-none" rows="6"></textarea>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">图片上传</label>
+                    <div class="border-2 border-dashed border-neutral-300 rounded-lg p-4 text-center hover:border-primary transition-colors cursor-pointer">
+                      <i class="fa-solid fa-cloud-upload text-2xl text-neutral-400 mb-2"></i>
+                      <p class="text-neutral-500">点击上传图片</p>
+                      <input type="file" class="hidden">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">视频上传</label>
+                    <div class="border-2 border-dashed border-neutral-300 rounded-lg p-4 text-center hover:border-primary transition-colors cursor-pointer">
+                      <i class="fa-solid fa-video text-2xl text-neutral-400 mb-2"></i>
+                      <p class="text-neutral-500">点击上传视频</p>
+                      <input type="file" class="hidden">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex justify-end space-x-4">
+                  <button type="button" class="px-6 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 transition-colors">
+                    取消
+                  </button>
+                  <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
+                    保存
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-card">
+            <div class="p-6 border-b border-neutral-200">
+              <h3 class="text-lg font-semibold text-neutral-700">邮箱管理</h3>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-4">
+                <p class="text-sm text-neutral-500">已授权邮箱列表</p>
+                <button id="add-email-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm text-sm">
+                  <i class="fa-solid fa-plus mr-1"></i> 添加邮箱
+                </button>
+              </div>
+              
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-neutral-200">
+                  <thead>
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">邮箱</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">权限</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">状态</th>
+                      <th class="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-neutral-200">
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="text-sm text-neutral-700">admin@nwu.edu.cn</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                          管理员
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          已验证
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-red-500 hover:text-red-700 transition-colors">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="text-sm text-neutral-700">editor@nwu.edu.cn</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                          编辑
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          已验证
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-red-500 hover:text-red-700 transition-colors">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="text-sm text-neutral-700">user@nwu.edu.cn</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          普通用户
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          待验证
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-red-500 hover:text-red-700 transition-colors">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div
